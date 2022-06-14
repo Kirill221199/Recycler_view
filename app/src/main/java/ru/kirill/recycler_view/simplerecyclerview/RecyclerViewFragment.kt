@@ -12,6 +12,17 @@ class RecyclerViewFragment : Fragment() {
     private var _binding: FragmentRecyclerViewBinding? = null
     private val binding get() = _binding!!
 
+    val list = arrayListOf(
+        Data("Earth", "Earth Description", TYPE_EARTH),
+        Data("Mars", "Mars Description", TYPE_MARS),
+        Data("Earth", "Earth Description", TYPE_EARTH),
+        Data("Earth", "Earth Description", TYPE_EARTH),
+        Data("Mars", "Mars Description", TYPE_MARS),
+        Data("Mars", "Mars Description", TYPE_MARS),
+        Data("Earth", "Earth Description", TYPE_EARTH),
+        Data("Mars", "Mars Description", TYPE_MARS)
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -24,6 +35,12 @@ class RecyclerViewFragment : Fragment() {
     ): View? {
         _binding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.recyclerview.adapter = RecyclerViewAdapter(list)
     }
 
     companion object {
