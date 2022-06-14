@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.kirill.recycler_view.databinding.RecyclerItemFirstBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemHeaderBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemSecondBinding
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.ItemTouchHelperAdapter
 
 
 const val TYPE_MARS = 1
@@ -17,7 +18,7 @@ const val TYPE_EARTH = 2
 const val TYPE_HEADER = 3
 
 class RecyclerViewAdapter(
-    private var list: MutableList<Data>,
+    private var list: MutableList<DataRecyclerView>,
     private var onListItemClickListener: OnListItemClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
@@ -25,16 +26,16 @@ class RecyclerViewAdapter(
     private var marsIsOpen: Boolean = false
     private var earthIsOpen: Boolean = false
 
-    fun setList(newList: List<Data>) {
+    fun setList(newList: List<DataRecyclerView>) {
         this.list = newList.toMutableList()
     }
 
-    fun setAddToList(newList: List<Data>, position: Int, type: Int) {
+    fun setAddToList(newList: List<DataRecyclerView>, position: Int, type: Int) {
         this.list = newList.toMutableList()
         notifyItemChanged(position)
     }
 
-    fun setRemoveToList(newList: List<Data>, position: Int) {
+    fun setRemoveToList(newList: List<DataRecyclerView>, position: Int) {
         this.list = newList.toMutableList()
         notifyItemRemoved(position)
     }
@@ -103,7 +104,7 @@ class RecyclerViewAdapter(
 
     inner class MarsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val context = view.context
-        fun myBind(data: Data) {
+        fun myBind(data: DataRecyclerView) {
             (RecyclerItemFirstBinding.bind(itemView)).apply {
                 titleFirst.text = data.title
                 descriptionFirst.text = data.description
@@ -127,7 +128,7 @@ class RecyclerViewAdapter(
 
     inner class EarthViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val context = view.context
-        fun myBind(data: Data) {
+        fun myBind(data: DataRecyclerView) {
             (RecyclerItemSecondBinding.bind(itemView)).apply {
                 titleSecond.text = data.title
                 descriptionSecond.text = data.description
@@ -150,7 +151,7 @@ class RecyclerViewAdapter(
     }
 
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun myBind(data: Data) {
+        fun myBind(data: DataRecyclerView) {
             (RecyclerItemHeaderBinding.bind(itemView)).apply {
                 header.text = data.title
             }

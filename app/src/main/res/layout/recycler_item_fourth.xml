@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/image_fourth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_pluto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_fourth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_fourth"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="title"
+        tools:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/description_fourth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_fourth"
+        app:layout_constraintTop_toBottomOf="@+id/title_fourth"
+        tools:text="description"
+        tools:textSize="35sp" />
+
+    <View
+        android:id="@+id/space_fourth"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/description_fourth" />
+
+    <TextView
+        android:id="@+id/text_pluto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_pluto"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/space_fourth" />
+
+    <View
+        android:id="@+id/end_fourth"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/black"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/text_pluto" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

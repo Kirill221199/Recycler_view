@@ -1,14 +1,12 @@
 package ru.kirill.recycler_view.simplerecyclerview
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import ru.kirill.recycler_view.R
-import ru.kirill.recycler_view.activity.MainActivity
 import ru.kirill.recycler_view.databinding.FragmentRecyclerViewBinding
 
 
@@ -20,15 +18,15 @@ class RecyclerViewFragment : Fragment(), OnListItemClickListener {
     lateinit var adapter: RecyclerViewAdapter
 
     val list = arrayListOf(
-        Data("Header","", TYPE_HEADER),
-        Data("Earth", "Earth Description", TYPE_EARTH),
-        Data("Mars", "Mars Description", TYPE_MARS),
-        Data("Earth", "Earth Description", TYPE_EARTH),
-        Data("Earth", "Earth Description", TYPE_EARTH),
-        Data("Mars", "Mars Description", TYPE_MARS),
-        Data("Mars", "Mars Description", TYPE_MARS),
-        Data("Earth", "Earth Description", TYPE_EARTH),
-        Data("Mars", "Mars Description", TYPE_MARS)
+        DataRecyclerView("Header","", TYPE_HEADER),
+        DataRecyclerView("Earth", "Earth Description", TYPE_EARTH),
+        DataRecyclerView("Mars", "Mars Description", TYPE_MARS),
+        DataRecyclerView("Earth", "Earth Description", TYPE_EARTH),
+        DataRecyclerView("Earth", "Earth Description", TYPE_EARTH),
+        DataRecyclerView("Mars", "Mars Description", TYPE_MARS),
+        DataRecyclerView("Mars", "Mars Description", TYPE_MARS),
+        DataRecyclerView("Earth", "Earth Description", TYPE_EARTH),
+        DataRecyclerView("Mars", "Mars Description", TYPE_MARS)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,22 +67,20 @@ class RecyclerViewFragment : Fragment(), OnListItemClickListener {
         adapter  = RecyclerViewAdapter(list,this)
         adapter.setList(list)
         binding.recyclerview.adapter = adapter
-
-        ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(binding.recyclerview)
     }
 
-    override fun onItemClickListener(data: Data) {
+    override fun onItemClickListener(data: DataRecyclerView) {
         TODO("Not yet implemented")
     }
 
     override fun onAddBtnClick(position: Int, type: Int) {
         when (type){
             1 ->{
-                list.add(position, Data("Mars", "Mars Description", TYPE_MARS))
+                list.add(position, DataRecyclerView("Mars", "Mars Description", TYPE_MARS))
                 adapter.setAddToList(list, position,type)
             }
             2 -> {
-                list.add(position, Data("Earth", "Earth Description", TYPE_EARTH))
+                list.add(position, DataRecyclerView("Earth", "Earth Description", TYPE_EARTH))
                 adapter.setAddToList(list, position,type)
             }
         }
