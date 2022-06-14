@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/action_recyclerview"
+            android:icon="@drawable/ic_recyclerview"
+            android:title="@string/recyclerview" />
+
+        <item
+            android:id="@+id/action_recyclerview_with_diffutils"
+            android:icon="@drawable/ic_recyclerviewwithdiffutils"
+            android:title="@string/recyclerview_with_diffutils"/>
+
+</menu>
