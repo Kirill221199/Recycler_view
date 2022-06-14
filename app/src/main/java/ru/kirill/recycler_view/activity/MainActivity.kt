@@ -1,8 +1,12 @@
 package ru.kirill.recycler_view.activity
 
 import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.FragmentManager
 import ru.kirill.recycler_view.R
 import ru.kirill.recycler_view.databinding.ActivityMainBinding

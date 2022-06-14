@@ -1,5 +1,8 @@
 package ru.kirill.recycler_view.simplerecyclerview
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +11,31 @@ import ru.kirill.recycler_view.databinding.RecyclerItemFirstBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemHeaderBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemSecondBinding
 
+
 const val TYPE_MARS = 1
 const val TYPE_EARTH = 2
 const val TYPE_HEADER = 3
 
-class RecyclerViewAdapter(private var list: List<Data>) :
+class RecyclerViewAdapter(
+    private var list: List<Data>,
+    private var onListItemClickListener: OnListItemClickListener,
+    context: Context
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    fun setList(newList: List<Data>) {
+        this.list = newList
+    }
+
+    fun setAddToList(newList: List<Data>, position: Int, type: Int) {
+        this.list = newList
+        notifyItemChanged(position)
+    }
+
+    fun setRemoveToList(newList: List<Data>, position: Int) {
+        this.list = newList
+        notifyItemRemoved(position)
+    }
 
     override fun getItemViewType(position: Int): Int {
         return list[position].type
@@ -64,30 +86,54 @@ class RecyclerViewAdapter(private var list: List<Data>) :
         return list.size
     }
 
-}
-
-class MarsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    fun myBind(data: Data) {
-        (RecyclerItemFirstBinding.bind(itemView)).apply {
-            titleFirst.text = data.title
-            descriptionFirst.text = data.description
+    inner class MarsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val context = view.context
+        fun myBind(data: Data) {
+            (RecyclerItemFirstBinding.bind(itemView)).apply {
+                titleFirst.text = data.title
+                descriptionFirst.text = data.description
+                container.setOnLongClickListener {
+                    alert(context, layoutPosition, TYPE_MARS)
+                    true
+                }
+            }
         }
     }
-}
 
-class EarthViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    fun myBind(data: Data) {
-        (RecyclerItemSecondBinding.bind(itemView)).apply {
-            titleSecond.text = data.title
-            descriptionSecond.text = data.description
+    inner class EarthViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val context = view.context
+        fun myBind(data: Data) {
+            (RecyclerItemSecondBinding.bind(itemView)).apply {
+                titleSecond.text = data.title
+                descriptionSecond.text = data.description
+                container.setOnLongClickListener {
+                    alert(context, layoutPosition, TYPE_EARTH)
+                    true
+                }
+            }
         }
     }
-}
 
-class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    fun myBind(data: Data) {
-        (RecyclerItemHeaderBinding.bind(itemView)).apply {
-            header.text = data.title
+    inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun myBind(data: Data) {
+            (RecyclerItemHeaderBinding.bind(itemView)).apply {
+                header.text = data.title
+            }
         }
     }
+
+
+    private fun alert(context: Context, layoutPosition: Int, type: Int) {
+        AlertDialog.Builder(context)
+            .setMessage("What do you want to do?")
+            .setPositiveButton("Add") { dialog: DialogInterface?, which: Int ->
+                onListItemClickListener.onAddBtnClick(layoutPosition, type)
+            }
+            .setNegativeButton("Remove") { dialog: DialogInterface?, which: Int ->
+                onListItemClickListener.onRemoveBtnClick(layoutPosition)
+            }
+            .show()
+    }
+
 }
+

@@ -1,16 +1,22 @@
 package ru.kirill.recycler_view.simplerecyclerview
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
+import ru.kirill.recycler_view.R
+import ru.kirill.recycler_view.activity.MainActivity
 import ru.kirill.recycler_view.databinding.FragmentRecyclerViewBinding
 
-class RecyclerViewFragment : Fragment() {
+
+class RecyclerViewFragment : Fragment(), OnListItemClickListener {
 
     private var _binding: FragmentRecyclerViewBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var adapter: RecyclerViewAdapter
 
     val list = arrayListOf(
         Data("Header","", TYPE_HEADER),
@@ -28,6 +34,21 @@ class RecyclerViewFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_bar_menu, menu);
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_add_item -> {
+                alert()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateView(
@@ -38,10 +59,38 @@ class RecyclerViewFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerview.adapter = RecyclerViewAdapter(list)
+        initAdapter()
+    }
+
+    private fun initAdapter(){
+        adapter  = RecyclerViewAdapter(list,this, requireContext())
+        adapter.setList(list)
+        binding.recyclerview.adapter = adapter
+    }
+
+    override fun onItemClickListener(data: Data) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAddBtnClick(position: Int, type: Int) {
+        when (type){
+            1 ->{
+                list.add(position, Data("Mars", "Mars Description", TYPE_MARS))
+                adapter.setAddToList(list, position,type)
+            }
+            2 -> {
+                list.add(position, Data("Earth", "Earth Description", TYPE_EARTH))
+                adapter.setAddToList(list, position,type)
+            }
+        }
+    }
+
+    override fun onRemoveBtnClick(position: Int) {
+        list.removeAt(position)
+        adapter.setRemoveToList(list, position)
+
     }
 
     companion object {
@@ -57,4 +106,17 @@ class RecyclerViewFragment : Fragment() {
         _binding = null
         super.onDestroy()
     }
+
+    private fun alert() {
+        AlertDialog.Builder(context)
+            .setMessage("What do you want add?")
+            .setPositiveButton("Mars") { dialog: DialogInterface?, which: Int ->
+                onAddBtnClick(list.size, TYPE_MARS)
+            }
+            .setNegativeButton("Earth") { dialog: DialogInterface?, which: Int ->
+                onAddBtnClick(list.size, TYPE_EARTH)
+            }
+            .show()
+    }
+
 }
