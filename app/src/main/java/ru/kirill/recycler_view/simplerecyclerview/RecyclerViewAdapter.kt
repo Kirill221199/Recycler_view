@@ -5,10 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.kirill.recycler_view.databinding.RecyclerItemFirstBinding
+import ru.kirill.recycler_view.databinding.RecyclerItemHeaderBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemSecondBinding
 
 const val TYPE_MARS = 1
 const val TYPE_EARTH = 2
+const val TYPE_HEADER = 3
 
 class RecyclerViewAdapter(private var list: List<Data>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -30,6 +32,11 @@ class RecyclerViewAdapter(private var list: List<Data>) :
                     RecyclerItemSecondBinding.inflate(LayoutInflater.from(parent.context))
                 EarthViewHolder(view.root)
             }
+            TYPE_HEADER -> {
+                val view =
+                    RecyclerItemHeaderBinding.inflate(LayoutInflater.from(parent.context))
+                HeaderViewHolder(view.root)
+            }
             else -> {
                 val view =
                     RecyclerItemFirstBinding.inflate(LayoutInflater.from(parent.context))
@@ -46,6 +53,9 @@ class RecyclerViewAdapter(private var list: List<Data>) :
             }
             TYPE_MARS -> {
                 (holder as MarsViewHolder).myBind(list[position])
+            }
+            TYPE_HEADER -> {
+                (holder as HeaderViewHolder).myBind(list[position])
             }
         }
     }
@@ -74,3 +84,10 @@ class EarthViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 }
 
+class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    fun myBind(data: Data) {
+        (RecyclerItemHeaderBinding.bind(itemView)).apply {
+            header.text = data.title
+        }
+    }
+}

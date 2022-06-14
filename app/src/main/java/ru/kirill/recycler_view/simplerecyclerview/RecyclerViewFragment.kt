@@ -13,6 +13,7 @@ class RecyclerViewFragment : Fragment() {
     private val binding get() = _binding!!
 
     val list = arrayListOf(
+        Data("Header","", TYPE_HEADER),
         Data("Earth", "Earth Description", TYPE_EARTH),
         Data("Mars", "Mars Description", TYPE_MARS),
         Data("Earth", "Earth Description", TYPE_EARTH),
