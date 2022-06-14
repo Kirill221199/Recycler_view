@@ -23,6 +23,9 @@ class RecyclerViewAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var marsIsOpen: Boolean = false
+    private var earthIsOpen: Boolean = false
+
     fun setList(newList: List<Data>) {
         this.list = newList
     }
@@ -96,6 +99,16 @@ class RecyclerViewAdapter(
                     alert(context, layoutPosition, TYPE_MARS)
                     true
                 }
+                container.setOnClickListener {
+                    if(!marsIsOpen){
+                        textMars.visibility = View.VISIBLE
+                        endFirst.visibility = View.VISIBLE
+                    }else{
+                        textMars.visibility = View.GONE
+                        endFirst.visibility = View.GONE
+                    }
+                    marsIsOpen = !marsIsOpen
+                }
             }
         }
     }
@@ -109,6 +122,16 @@ class RecyclerViewAdapter(
                 container.setOnLongClickListener {
                     alert(context, layoutPosition, TYPE_EARTH)
                     true
+                }
+                container.setOnClickListener {
+                    if (!earthIsOpen){
+                        textEarth.visibility = View.VISIBLE
+                        endSecond.visibility = View.VISIBLE
+                    }else{
+                        textEarth.visibility = View.GONE
+                        endSecond.visibility = View.GONE
+                    }
+                    earthIsOpen = !earthIsOpen
                 }
             }
         }

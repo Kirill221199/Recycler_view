@@ -5,4 +5,6 @@
     <string name="recyclerview">RecyclerView</string>
     <string name="recyclerview_with_diffutils">RecyclerView with DiffUtils</string>
     <string name="add">ADD</string>
+    <string name="text_mars">Mars is the fourth most distant planet from the Sun and the seventh largest in the Solar System; the mass of the planet is 10.7% of the mass of the Earth. It is named after Mars, the ancient Roman god of war, corresponding to the ancient Greek Ares. Mars is also called the \'red planet\' because of the reddish tint of the surface, given to it by the mineral maghemite — γ-iron(III) oxide.</string>
+    <string name="text_earth">Earth is the third planet in the Solar system by distance from the Sun. The densest, fifth in diameter and mass among all the planets and the largest among the planets of the terrestrial group, which also includes Mercury, Venus and Mars. The only body currently known to man in the universe inhabited by living organisms.</string>
 </resources>
