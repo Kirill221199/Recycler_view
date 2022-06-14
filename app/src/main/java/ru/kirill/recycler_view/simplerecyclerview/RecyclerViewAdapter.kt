@@ -17,31 +17,43 @@ const val TYPE_EARTH = 2
 const val TYPE_HEADER = 3
 
 class RecyclerViewAdapter(
-    private var list: List<Data>,
-    private var onListItemClickListener: OnListItemClickListener,
-    context: Context
+    private var list: MutableList<Data>,
+    private var onListItemClickListener: OnListItemClickListener
 ) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
 
     private var marsIsOpen: Boolean = false
     private var earthIsOpen: Boolean = false
 
     fun setList(newList: List<Data>) {
-        this.list = newList
+        this.list = newList.toMutableList()
     }
 
     fun setAddToList(newList: List<Data>, position: Int, type: Int) {
-        this.list = newList
+        this.list = newList.toMutableList()
         notifyItemChanged(position)
     }
 
     fun setRemoveToList(newList: List<Data>, position: Int) {
-        this.list = newList
+        this.list = newList.toMutableList()
         notifyItemRemoved(position)
     }
 
     override fun getItemViewType(position: Int): Int {
         return list[position].type
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        list.removeAt(fromPosition).apply{
+            list.add(toPosition, this)
+        }
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+
+    override fun onItemDismiss(position: Int) {
+        list.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -154,6 +166,9 @@ class RecyclerViewAdapter(
             }
             .setNegativeButton("Remove") { dialog: DialogInterface?, which: Int ->
                 onListItemClickListener.onRemoveBtnClick(layoutPosition)
+            }
+            .setNeutralButton("Cancel"){dialog: DialogInterface?, which: Int ->
+                dialog?.cancel()
             }
             .show()
     }

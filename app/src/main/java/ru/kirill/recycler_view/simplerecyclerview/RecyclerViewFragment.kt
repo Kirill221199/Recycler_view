@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import ru.kirill.recycler_view.R
 import ru.kirill.recycler_view.activity.MainActivity
 import ru.kirill.recycler_view.databinding.FragmentRecyclerViewBinding
@@ -65,9 +66,11 @@ class RecyclerViewFragment : Fragment(), OnListItemClickListener {
     }
 
     private fun initAdapter(){
-        adapter  = RecyclerViewAdapter(list,this, requireContext())
+        adapter  = RecyclerViewAdapter(list,this)
         adapter.setList(list)
         binding.recyclerview.adapter = adapter
+
+        ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(binding.recyclerview)
     }
 
     override fun onItemClickListener(data: Data) {
@@ -115,6 +118,9 @@ class RecyclerViewFragment : Fragment(), OnListItemClickListener {
             }
             .setNegativeButton("Earth") { dialog: DialogInterface?, which: Int ->
                 onAddBtnClick(list.size, TYPE_EARTH)
+            }
+            .setNeutralButton("Cancel"){dialog: DialogInterface?, which: Int ->
+                dialog?.cancel()
             }
             .show()
     }
