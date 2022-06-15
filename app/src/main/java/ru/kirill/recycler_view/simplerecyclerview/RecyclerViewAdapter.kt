@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.kirill.recycler_view.databinding.RecyclerItemFirstBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemHeaderBinding
@@ -113,14 +114,37 @@ class RecyclerViewAdapter(
                     true
                 }
                 container.setOnClickListener {
-                    if(!marsIsOpen){
+                    if (!marsIsOpen) {
                         textMars.visibility = View.VISIBLE
                         endFirst.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         textMars.visibility = View.GONE
                         endFirst.visibility = View.GONE
                     }
                     marsIsOpen = !marsIsOpen
+                }
+
+                buttonUpFirst.setOnClickListener {
+                    if (layoutPosition > 1) { // Сan 't be higher than header
+                        list.removeAt(layoutPosition).apply {
+                            list.add(layoutPosition - 1, this)
+                        }
+                        notifyItemMoved(layoutPosition, layoutPosition - 1)
+                    } else {
+                        Toast.makeText(context, "start of the list", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+                buttonDownFirst.setOnClickListener {
+                    if (layoutPosition < list.lastIndex) {
+                        list.removeAt(layoutPosition).apply {
+                            list.add(layoutPosition + 1, this)
+                        }
+                        notifyItemMoved(layoutPosition, layoutPosition + 1)
+                    } else {
+                        Toast.makeText(context, "end of the list", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -137,14 +161,37 @@ class RecyclerViewAdapter(
                     true
                 }
                 container.setOnClickListener {
-                    if (!earthIsOpen){
+                    if (!earthIsOpen) {
                         textEarth.visibility = View.VISIBLE
                         endSecond.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         textEarth.visibility = View.GONE
                         endSecond.visibility = View.GONE
                     }
                     earthIsOpen = !earthIsOpen
+                }
+
+                buttonUpSecond.setOnClickListener {
+                    if (layoutPosition > 1) { // Сan 't be higher than header
+                        list.removeAt(layoutPosition).apply {
+                            list.add(layoutPosition - 1, this)
+                        }
+                        notifyItemMoved(layoutPosition, layoutPosition - 1)
+                    } else {
+                        Toast.makeText(context, "start of the list", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+                buttonDownSecond.setOnClickListener {
+                    if (layoutPosition < list.lastIndex) {
+                        list.removeAt(layoutPosition).apply {
+                            list.add(layoutPosition + 1, this)
+                        }
+                        notifyItemMoved(layoutPosition, layoutPosition + 1)
+                    } else {
+                        Toast.makeText(context, "end of the list", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
