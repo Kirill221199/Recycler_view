@@ -1,18 +1,21 @@
 package ru.kirill.recycler_view.recyclerviewWithDiffutils
 
-import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
-import android.graphics.Color
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ru.kirill.recycler_view.databinding.RecyclerItemFirstBinding
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.DiffUtils.DiffUtilCallback
+import ru.kirill.recycler_view.R
 import ru.kirill.recycler_view.databinding.RecyclerItemFourthBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemHeaderBinding
-import ru.kirill.recycler_view.databinding.RecyclerItemSecondBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemThirdBinding
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.DiffUtils.Change
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.DiffUtils.createCombinedPayload
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.ItemTouchHelper.ItemTouchHelperAdapter
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.ItemTouchHelper.ItemTouchHelperViewHolder
 
 
 const val TYPE_JUPITER = 1
@@ -29,6 +32,8 @@ class RecyclerViewWithDiffUtilsAdapter(
     private var earthIsOpen: Boolean = false
 
     fun setList(newList: List<DataRecyclerViewWithDiffUtils>) {
+        val result = DiffUtil.calculateDiff(DiffUtilCallback(list,newList))
+        result.dispatchUpdatesTo(this)
         this.list = newList.toMutableList()
     }
 
@@ -86,6 +91,35 @@ class RecyclerViewWithDiffUtilsAdapter(
         }
     }
 
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if(payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        }else{
+            when (getItemViewType(position)){
+
+                TYPE_JUPITER -> {
+                    val res = createCombinedPayload(payloads as List<Change<DataRecyclerViewWithDiffUtils>>)
+                    if(res.oldData.description != res.newData.description)
+                        (holder as JupiterViewHolder).itemView.findViewById<TextView>(R.id.description_third).text =res.newData.description
+                }
+
+                TYPE_PLUTO -> {
+                    val res = createCombinedPayload(payloads as List<Change<DataRecyclerViewWithDiffUtils>>)
+                    if(res.oldData.title != res.newData.title)
+                        (holder as PlutoViewHolder).itemView.findViewById<TextView>(R.id.title_fourth).text =res.newData.title
+                }
+
+                TYPE_HEADER -> {
+                    (holder as HeaderViewHolder).myBind(list[position])
+                }
+            }
+        }
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             TYPE_JUPITER -> {
@@ -104,7 +138,8 @@ class RecyclerViewWithDiffUtilsAdapter(
         return list.size
     }
 
-    inner class JupiterViewHolder(view: View) : RecyclerView.ViewHolder(view),ItemTouchHelperViewHolder {
+    inner class JupiterViewHolder(view: View) : RecyclerView.ViewHolder(view),
+        ItemTouchHelperViewHolder {
         fun myBind(data: DataRecyclerViewWithDiffUtils) {
             (RecyclerItemThirdBinding.bind(itemView)).apply {
                 titleThird.text = data.title
@@ -122,8 +157,9 @@ class RecyclerViewWithDiffUtilsAdapter(
             }
         }
 
+        @SuppressLint("ResourceAsColor")
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.BLUE)
+            itemView.setBackgroundColor(R.color.black)
         }
 
         override fun onItemClear() {
@@ -131,7 +167,8 @@ class RecyclerViewWithDiffUtilsAdapter(
         }
     }
 
-    inner class PlutoViewHolder(view: View) : RecyclerView.ViewHolder(view),ItemTouchHelperViewHolder {
+    inner class PlutoViewHolder(view: View) : RecyclerView.ViewHolder(view),
+        ItemTouchHelperViewHolder {
         fun myBind(data: DataRecyclerViewWithDiffUtils) {
             (RecyclerItemFourthBinding.bind(itemView)).apply {
                 titleFourth.text = data.title
@@ -149,11 +186,12 @@ class RecyclerViewWithDiffUtilsAdapter(
             }
         }
 
+        @SuppressLint("ResourceAsColor")
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.BLUE)
+            itemView.setBackgroundColor(R.color.black)
         }
 
-        override fun onItemClear() {
+            override fun onItemClear() {
             itemView.setBackgroundColor(0)
         }
     }

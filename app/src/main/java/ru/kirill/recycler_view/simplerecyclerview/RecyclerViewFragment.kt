@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import ru.kirill.recycler_view.R
 import ru.kirill.recycler_view.databinding.FragmentRecyclerViewBinding
 

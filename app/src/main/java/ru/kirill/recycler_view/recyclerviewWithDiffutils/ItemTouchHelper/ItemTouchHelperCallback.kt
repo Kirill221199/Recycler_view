@@ -1,7 +1,8 @@
-package ru.kirill.recycler_view.recyclerviewWithDiffutils
+package ru.kirill.recycler_view.recyclerviewWithDiffutils.ItemTouchHelper
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.RecyclerViewWithDiffUtilsAdapter
 
 class ItemTouchHelperCallback(private val adapter: RecyclerViewWithDiffUtilsAdapter):
     ItemTouchHelper.Callback() {

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.kirill.recycler_view.databinding.RecyclerItemFirstBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemHeaderBinding
 import ru.kirill.recycler_view.databinding.RecyclerItemSecondBinding
-import ru.kirill.recycler_view.recyclerviewWithDiffutils.ItemTouchHelperAdapter
+import ru.kirill.recycler_view.recyclerviewWithDiffutils.ItemTouchHelper.ItemTouchHelperAdapter
 
 
 const val TYPE_MARS = 1

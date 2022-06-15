@@ -1,4 +1,4 @@
-package ru.kirill.recycler_view.recyclerviewWithDiffutils
+package ru.kirill.recycler_view.recyclerviewWithDiffutils.ItemTouchHelper
 
 interface ItemTouchHelperAdapter {
 
